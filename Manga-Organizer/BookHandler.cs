@@ -2,38 +2,54 @@
 using System.IO;
 using System.IO.Compression;
 using System.Diagnostics;
+using System.CodeDom;
 
-namespace HelloWPF
+namespace Manga_Organizer
 {
     internal class BookHandler
     {
-        public static void GetBookTitle()
+        public static void ExtractMetadata(string bookPath)
         {
-            string bookPath = @"C:\Users\candy\repos\Manga-Organizer\Manga-Organizer\Books\Abara_ Complete Deluxe Edition - Tsutomu Nihei.epub";
+            var zip = ZipFile.OpenRead(bookPath);
+            var zipEntry = zip.GetEntry(@"OEBPS/content.opf");
 
-            string extractPath = ".\\Temp";
-            string metadataPath = ".\\Temp\\OEBPS\\content.opf";
-            Directory.CreateDirectory(".\\Temp");
-            ZipFile.ExtractToDirectory(bookPath, extractPath);
+            if (zipEntry == null)
+            {
+                throw new ArgumentNullException("file not found");
+            }
 
-            string[] lines = File.ReadAllLines(metadataPath);
-            Trace.WriteLine("successfully extracted");
+            zipEntry.ExtractToFile(@"Temp\metadata.opf", true);
+        }
+
+        public static Book CreateBookInstance(string metadata)
+        {
+            string[] lines = File.ReadAllLines(metadata);
+            string title = string.Empty;
+            string author = string.Empty;
+
             foreach (string line in lines)
             {
-                if (line.Contains("<dc:title>"))
+                if (line.StartsWith("<dc:title>"))
                 {
-                    string title = line.Substring(10, line.Length - 11);
-                    Trace.WriteLine(title);
+                    title = line.Substring(10, line.Length - 21);
+                }
+                else if (line.StartsWith("<dc:creator>"))
+                {
+                    author = line.Substring(12, line.Length - 23);
                     break;
                 }
             }
-            Directory.Delete(extractPath, true);
+
+            var bookInstance = new Book(title, author);
+            return bookInstance;
         }
 
-        public static void ExtractBook(string bookPath)
+        public static void CreateBookFolder(Book book, string initialPath)
         {
-            string extractPath = "C:\\Users\\candy\\repos\\C#\\HelloWPF\\Books\\Abara";
-            ZipFile.ExtractToDirectory(bookPath, extractPath);
+            Directory.CreateDirectory(book.Path);
+            File.Copy(@"Temp\metadata.opf", @$"{book.Path}\metadata.opf");
+            File.Copy(initialPath, @$"{book.Path}\{book.Title}.epub");
+            File.Delete(@"Temp\metadata.opf");
         }
     }
 }

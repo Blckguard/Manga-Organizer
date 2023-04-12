@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace HelloWPF.View.UserControls
+namespace Manga_Organizer.View.UserControls
 {
     /// <summary>
     /// Interaction logic for Menubar.xaml
