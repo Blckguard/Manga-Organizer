@@ -8,5 +8,15 @@
              d:DesignHeight="684" d:DesignWidth="200">
     <Grid>
         <Rectangle Grid.Column="0" Fill="#404040"/>
+        <ListView Name="libraryList">
+        </ListView>
+        <Button Name="buttonRefresh"
+                Height="20"
+                Width="50"
+                VerticalAlignment="bottom"
+                HorizontalAlignment="left"
+                Click="buttonRefresh_Click">
+            Refresh
+        </Button>
     </Grid>
 </UserControl>

@@ -19,10 +19,7 @@ namespace Manga_Organizer.View.UserControls
 
         private void buttonExtract_Click(object sender, RoutedEventArgs e)
         {
-            BookHandler.ExtractMetadata(BookPath);
-            var testBook = BookHandler.CreateBookInstance(@"Temp\metadata.opf");
-            BookHandler.CreateBookFolder(testBook, BookPath);
-            debugtext.Text = testBook.title;
+
         }
 
         private void Grid_Drop(object sender, DragEventArgs e)
@@ -32,6 +29,8 @@ namespace Manga_Organizer.View.UserControls
                 string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
                 BookPath = files[0];
 
+                EpubHandler.ExtractMetadata(BookPath);
+                EpubHandler.CreateBookInstance(@"Temp\metadata.opf");
             }
         }
     }

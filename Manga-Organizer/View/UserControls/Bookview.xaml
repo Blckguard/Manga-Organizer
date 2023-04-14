@@ -17,7 +17,8 @@
                    VerticalAlignment="Top"
                    Margin="200"
                    Name="debugtext"/>
-        <Button Name="buttonExtract" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Extract" Height="100" Width="100"
+        <!--<Button Name="buttonExtract" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Extract" Height="100" Width="100"
                 Click="buttonExtract_Click"/>
+        -->
     </Grid>
 </UserControl>

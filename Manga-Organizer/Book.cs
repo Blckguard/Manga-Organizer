@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -9,18 +11,25 @@ namespace Manga_Organizer
 {
     internal class Book
     {
+        //properties
         public string? title;
         public string? author;
         public string Path;
 
-        public Book(string title, string author)
+        // constructor
+        public Book(string title, string author, string initialPath)
         {
             Title = title;
             Author = author;
             Path = @$"Books\{Title}";
 
+            if (!Directory.Exists(Path))
+            {
+                CreateBookFolder(Path);
+            }
         }
 
+        // get setters
         public string Title
         {
             get 
@@ -36,7 +45,6 @@ namespace Manga_Organizer
                 title = value;
             }
         }
-
         public string Author
         {
             get
@@ -51,6 +59,15 @@ namespace Manga_Organizer
             {
                 author = value;
             }
+        }
+
+        // methods
+        public void CreateBookFolder(string initialPath)
+        {
+            Directory.CreateDirectory(Path);
+            File.Copy(@"Temp\metadata.opf", @$"{Path}\metadata.opf");
+            //File.Copy(initialPath, @$"{book.Path}\{book.Title}.epub");
+            File.Delete(@"Temp\metadata.opf");
         }
     }
 }

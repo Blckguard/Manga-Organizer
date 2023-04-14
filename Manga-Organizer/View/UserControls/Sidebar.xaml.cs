@@ -20,9 +20,22 @@ namespace Manga_Organizer.View.UserControls
     /// </summary>
     public partial class Sidebar : UserControl
     {
+        public static string testboxContent = "test";
         public Sidebar()
         {
             InitializeComponent();
+        }
+
+        private void buttonRefresh_Click(object sender, RoutedEventArgs e)
+        {
+            var library = new Library(@"Books");
+
+            libraryList.Items.Clear();
+
+            foreach (Book book in library.GetBooks())
+            {
+                libraryList.Items.Add(book.title);
+            }
         }
     }
 }
