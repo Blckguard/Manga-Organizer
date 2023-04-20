@@ -35,6 +35,8 @@ namespace Manga_Organizer.View.UserControls
             foreach (Book book in library.GetBooks())
             {
                 libraryList.Items.Add(book.title);
+
+                
             }
         }
     }

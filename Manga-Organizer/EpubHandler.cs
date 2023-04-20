@@ -11,20 +11,25 @@ namespace Manga_Organizer
     internal class EpubHandler
     {
         public static string BookPath { get; set; }
+        public static ZipArchive Zip { get; set; }
 
-        public static void ExtractMetadata(string bookPath)
+        public EpubHandler(string bookPath)
         {
             BookPath = bookPath;
-            var zip = ZipFile.OpenRead(bookPath);
-            var zipEntry = zip.GetEntry(@"OEBPS/content.opf");
+            Zip = ZipFile.OpenRead(BookPath);
+        }
+
+        public void ExtractMetadata()
+        {
+            var zipEntry = Zip.GetEntry(@"OEBPS/content.opf");
 
             if (zipEntry == null)
             {
-                zipEntry = zip.GetEntry(@"content.opf");
+                zipEntry = Zip.GetEntry(@"content.opf");
             }
             if (zipEntry == null)
             {
-                throw new ArgumentNullException("file-format not supported");
+                throw new ArgumentNullException("metadata not found");
             }
 
             zipEntry.ExtractToFile(@"Temp\content.opf", true);
@@ -42,6 +47,22 @@ namespace Manga_Organizer
                 }
             }
             metadata.Close();
+        }
+
+        public void ExtractCover()
+        {
+            var zipEntry = Zip.GetEntry(@"OEBPS/Images/cover.jpg");
+
+            if (zipEntry == null)
+            {
+                zipEntry = Zip.GetEntry(@"cover.jpg");
+            }
+            if (zipEntry == null)
+            {
+                throw new ArgumentNullException("cover not found");
+            }
+
+            zipEntry.ExtractToFile(@"Temp\cover.jpg");
         }
 
         public static Book CreateBookInstance(string metadata)
@@ -70,20 +91,5 @@ namespace Manga_Organizer
             var bookInstance = new Book(title, author, BookPath);
             return bookInstance;
         }
-
-        //public static void CreateBookFolder(Book book, string initialPath)
-        //{
-        //    if (!Directory.Exists(book.Path))
-        //    {
-        //         Directory.CreateDirectory(book.Path);
-        //        File.Copy(@"Temp\metadata.opf", @$"{book.Path}\metadata.opf");
-        //        //File.Copy(initialPath, @$"{book.Path}\{book.Title}.epub");
-        //    }
-        //    else
-        //    {
-        //        Debug.WriteLine("book already in library");
-        //    }
-        //    File.Delete(@"Temp\metadata.opf");
-        //}
     }
 }

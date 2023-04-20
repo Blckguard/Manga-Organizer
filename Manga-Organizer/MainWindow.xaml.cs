@@ -24,8 +24,13 @@ namespace Manga_Organizer
         public MainWindow()
         {
             InitializeComponent();
-            Directory.CreateDirectory(@"Temp");
-            Directory.CreateDirectory(@"Books");
+
+            if (!Directory.Exists(@"Temp") && !Directory.Exists(@"Books"))
+            {
+                Directory.CreateDirectory(@"Temp");
+                Directory.CreateDirectory(@"Books");
+            }
+            
         }
     }
 }

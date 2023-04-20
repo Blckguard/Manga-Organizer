@@ -8,8 +8,8 @@
              d:DesignHeight="684" d:DesignWidth="200">
     <Grid>
         <Rectangle Grid.Column="0" Fill="#404040"/>
-        <ListView Name="libraryList">
-        </ListView>
+        <ListBox Name="libraryList">
+        </ListBox>
         <Button Name="buttonRefresh"
                 Height="20"
                 Width="50"

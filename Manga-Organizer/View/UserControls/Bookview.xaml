@@ -6,19 +6,31 @@
              xmlns:local="clr-namespace:Manga_Organizer.View.UserControls"
              mc:Ignorable="d" 
              d:DesignHeight="684" d:DesignWidth="1080">
-    <Grid >
-        <Rectangle AllowDrop="True" 
-                   Drop="Grid_Drop" 
-                   Grid.Column="1" 
-                   Fill="#585858"/>
-        <TextBlock Text ="" 
-                   FontSize="20"
-                   HorizontalAlignment="Center"
-                   VerticalAlignment="Top"
-                   Margin="200"
-                   Name="debugtext"/>
-        <!--<Button Name="buttonExtract" VerticalAlignment="Center" HorizontalAlignment="Center" Content="Extract" Height="100" Width="100"
+    <Grid>
+        <ListBox Name="listBookCover"
+                 Panel.ZIndex="-1"
+                 Background="#585858"
+                 ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
+                 Drop="Grid_Drop" 
+                 AllowDrop="True">
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel IsItemsHost="True" />
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+        </ListBox>
+        <Button Name="buttonExtract" 
+                VerticalAlignment="Bottom" 
+                HorizontalAlignment="Right" 
+                Content="Show" 
+                Height="50" 
+                Width="100"
                 Click="buttonExtract_Click"/>
-        -->
+        <Image Name="lmao"
+               VerticalAlignment="top"
+               HorizontalAlignment="left"
+               Height="150"
+               Margin="30"/>
+
     </Grid>
 </UserControl>
