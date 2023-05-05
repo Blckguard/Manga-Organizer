@@ -6,28 +6,53 @@
         xmlns:local="clr-namespace:Manga_Organizer"
         xmlns:userControls="clr-namespace:Manga_Organizer.View.UserControls"
         mc:Ignorable="d"
-        Title="Manga Organizer" Height="720" Width="1280">
+        Title="Manga Organizer" Height="450" Width="800">
 
     <Grid>
         <!-- Main grid -->
         <Grid.RowDefinitions>
-            <RowDefinition Height="20"/>
+            <RowDefinition Height="30"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
         
-        <!-- Top Bar -->
-        <userControls:Menubar Grid.Row="0" />
+        <!-- menu bar -->
 
-        <!-- Secondary Grid -->
-        <Grid Grid.Row="1">
+        <Grid Background="#4f4f4f" Grid.Row="0">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="200"/>
-                <ColumnDefinition />
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
 
-        <!-- Sidebar and View -->
-        <userControls:Sidebar Grid.Column="0" />
-        <userControls:Bookview Grid.Column="1" />
+            <Grid.Resources>
+                <Style TargetType="Button">
+                </Style>
+            </Grid.Resources>
+            
+            <Button Grid.Column="0"
+                    Content="Reading"/>
+            <Button Grid.Column="1"
+                    Content="Edit"/>
+            <Button Grid.Column="2"
+                    Content="Grouped"/>
+            <Button Grid.Column="3"
+                    Content="Settings"/>
+            <Rectangle Grid.Column="4"
+                       Fill="Transparent"/>
+            <TextBox Grid.Column="5"
+                     Width="200"/>
+
+        </Grid>
+
+        <!-- Main body -->
+        <Grid Grid.Row="1" Background="#5f5f5f">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="99*"/>
+                <ColumnDefinition Width="301*"/>
+            </Grid.ColumnDefinitions>
 
         </Grid>
     </Grid>

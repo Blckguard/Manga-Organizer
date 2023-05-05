@@ -19,28 +19,41 @@ namespace Manga_Organizer.View.UserControls
     {
         public string BookPath { get; set; }
 
-        private string cover;
-
-        public string Cover
-        {
-            get { return cover; }
-            set { cover = value; }
-        }
-
-
         public Bookview()
         {
             InitializeComponent();
             BookPath = string.Empty;
+            RefreshList();
         }
 
         private void buttonExtract_Click(object sender, RoutedEventArgs e)
+        {
+            RefreshList();
+        }
+        private void Grid_Drop(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+                BookPath = files[0];
+
+                var currentEpub = new EpubHandler(BookPath);
+
+                currentEpub.ExtractMetadata();
+                currentEpub.ExtractCover();
+                EpubHandler.CreateBookInstance(@"Temp\metadata.opf");
+            }
+
+            RefreshList();
+        }
+
+        public void RefreshList()
         {
             listBookCover.Items.Clear();
             var library = new Library(@"Books");
             List<Book> libraryList = library.GetBooks();
 
-           foreach (Book book in libraryList)
+            foreach (Book book in libraryList)
             {
                 // getting path to cover and converting to URI
                 var fullPath = Path.GetFullPath(book.Cover);
@@ -57,23 +70,11 @@ namespace Manga_Organizer.View.UserControls
 
                 // setting properties of list entry
                 listEntry.Height = 200;
+                listEntry.Margin = new Thickness(5);
+
 
                 // adding stackpanel to the list of covers
                 listBookCover.Items.Add(listEntry);
-            }
-        }
-        private void Grid_Drop(object sender, DragEventArgs e)
-        {
-            if (e.Data.GetDataPresent(DataFormats.FileDrop))
-            {
-                string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
-                BookPath = files[0];
-
-                var currentEpub = new EpubHandler(BookPath);
-
-                currentEpub.ExtractMetadata();
-                currentEpub.ExtractCover();
-                EpubHandler.CreateBookInstance(@"Temp\metadata.opf");
             }
         }
     }

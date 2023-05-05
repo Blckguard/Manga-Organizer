@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Security.RightsManagement;
 using System.Text.RegularExpressions;
 using System.Windows.Documents;
 
